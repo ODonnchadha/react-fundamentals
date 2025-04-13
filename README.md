@@ -97,5 +97,79 @@
         - Takes an object containing the CSS.
         - Inline or pre-declared object.
 
-
 - HOOKS, PROPS, AND STATE:
+    - A component returns JSX. Components can receive arguments from other components.
+    - RULE: Props are read-only. Props are passed by reference. One-way data flow.
+    - Props:
+        - Passing arguments to components.
+        - Using HTML-like attribute syntax.
+        - Receiving component accesses props object.
+        - Allow for better reuseability of components.
+    - Do all props have an associated prop type? Make your intentions clear.
+        - NOTE: Even with `children`, we are still destructuring the object.
+            ```javascript
+                const Banner = ({children}) => {
+            ```
+        - An entire component tree could now be passed.
+    - `map`: Takes a function as a parameter, called for each item on the array.
+        - Gets the array element as a parameter.
+            ```javascript
+                const numbers = ["one", "two", "four"];
+                const numbersPrefixed = numbers.map(n => "Number " + n);
+            ```
+        - Mapped to something else, producing a new array.
+    - The key prop: Needed whenever arrays of React elements are created.
+        - Render only new items. Link generated JSX to array items. And not refresh.
+            - Key property used internally.
+        - Only elements directly inside the map call need keys. 
+        - Never use them outside of the direct context of the array.
+            ```javascript
+                {houses.map(h => <HouseRow key={h.id} house={h} />)}
+            ```
+        - Downside. So destructure at a deeper level:
+            ```javascript
+                const HouseRow = ({ house }) => {
+                return (
+                <tr>
+                    <td>{house.address}</td>
+            ```
+            ```javascript
+                const HouseRow = ({ house: { address, country, price } }) => {
+                return (
+                <tr>
+                    <td>{address}</td>
+            ```
+            - Beware spread operator if the spread object has many properties that the component does not need.
+    - Hooks: A function. Starts with "use." Encapsulates complexity. Access React's features. Custom hooks. Imported.
+    - Rules of hooks:
+        - Only call hooks at the top level. Forbidden to call them conditionally. Or after an early return.
+            - We need to ensure that hooks are called in the same order.
+        - Only can be called within a function component.
+            - Or custom hooks.
+    - Components and state. State is data kept internally.
+        - One-way data flow. Change the data upstream and update based upon flow.
+        - `useState` by calling the set function, React will know that the state was updated.
+            - And it will re-render to UI automatically. If needed.
+        - Primitive type: React will compare the previous value with the new value.
+            - And, if different, React will update the UI.
+            - NOTE: React will batch calls.
+        - State:
+            - State is internal data managed by a component.
+            - Introduced by state hook.
+            - Prarmeter: initial value.
+            - Returns: Array with current value and function to change it (the `set` function.)
+            - Change the state using the set function ONLY.
+    - Props and state interaction:
+        - A prop value can change. What is a prop for one component is often state for another.
+    - Core React features:
+        - Structure with components:
+            - Reusability.
+            - Have state.
+        - UIs declared in JavaScript:
+            - Rendered output changes when state is updated.
+        - Efficiency with reconciliation:
+            - Only updates the parts of the UI that changed.
+
+- COMPONENT RENDERING AND SIDE EFFECTS:
+    - 
+
