@@ -84,5 +84,18 @@
             ```
 
 - STYLING COMPONENTS:
+    - Traditional: Include it in the root HTML document. All coponents will be,loaded within the id root.
+    - And then add a site-specific file within the public root. And then added as a CSS link in HTML.
+        - Both files are globally applied.
+    - NOTE: IMported CSS in a lower component?
+        - Applied globally no matter where it is imported.
+        - Development builds: CSS rendered in style element.
+        - Production builds: CSS bundled in a file with a hashed name.
+    - Bootstrap Grid System: 12x columns. Row.
+    - Style attribute:
+        - Components have a style element.
+        - Takes an object containing the CSS.
+        - Inline or pre-declared object.
+
 
 - HOOKS, PROPS, AND STATE:
