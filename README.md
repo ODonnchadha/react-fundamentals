@@ -57,6 +57,31 @@
             - Performance.
             - Update browser on the fly.
         - `^` Lock a major version number in `package.json`.
+        - Public directory will not be processed with Vite tooling. Static resources. Root directory equeal root URL.
+    - Modules: 
+        - Components are in modules. JavaScript files with import and/or export statements.
+        - Not specific to React. Vite relies upon modules.
+            ```javascript
+                const doSomething = () => {};
+                export { doSomething };
+
+                import { doSomething } from './module';
+                doSomething();
+            ```
+            ```javascript
+                const doSomething = () => {};
+                export default doSomething;
+
+                import xyz from './module';
+                xyz();
+            ```
+        - Code structure. Reusability. Encapsulation. Performance. Scalability. 
+            - Easier to debug and test. Collaboration. Needed for bundling.
+    - Detecting problems and debugging:
+        - ESLint: Detect problems. Code styling. Commonly used. Vite: Built-in React ruleset.
+            ```javascript
+                npm run lint
+            ```
 
 - STYLING COMPONENTS:
 
