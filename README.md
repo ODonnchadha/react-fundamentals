@@ -171,5 +171,92 @@
             - Only updates the parts of the UI that changed.
 
 - COMPONENT RENDERING AND SIDE EFFECTS:
-    - 
+    - React components are functions that return JSX.
+    - And the component's function is executed when a component is rendered.
+    - Rendering is *not* updating the browser.
+    - Rendering a component is running the component's function.
+        - Updating of the browser is performed by React reconciliating the browser.
+        - When the state of a component changes it is re-rendered.
+    - React stores state internally by using in-memory arrays in order to track state.
+        - This is why useState cannot be called conditionally, due to the internal tracking.
+            - Flag component. Queue render. And then re-render.
+            - Flagged component and all child components are re-rendered.
+    - State changes and re-renders:
+        - Cascading effect.
+        - Doesn't degrade performance in a well-designed application.
+        - Remember reconciliation.
+        - Something to always keep in mind when designing the application.
+    - Pure functions:
+        - A function that always returns the same result:
+            ```javascript
+                const returnNumber = () => 42;
+            ```
+        - Another pure function:
+            ```javascript
+                const add = (a, b) => a + b;
+            ```
+            - As long as the same values for (a, b) are used, it will produce the same result.
+        - Easy to test. Predicyable. Reliable. Cacheable.
+        - Function components *must* be pure.
+            - Same state? Same prop values? Always return the same JSX.
+    - When to use React.memo():
+        - When it's faster.
+            - Heavy overhead with memo. And React's re-rendering cycle is highly optimized.
+            - Measure with profile tool. Plugin in Chrome.
+            - Needs to be a pure functional component. 
+            - And when it renders often with the same prop values.
+            - And the JSX is certainly not trivial. Shallow comparison to passed props.
+    - Unpredictable operations in components should be set aside:
+        - (Side) effects:
+            - API interaction.
+            - Use Browser APIs.
+            - Using timing functions:
+            ```javascript
+                useEffect(() => {
+                });
+            ```
+            - This function will be executed automatically after React is done running the pure functions and the browser has been uodated.
+        - Effect hook: Dependency array:
+            - Dependency array is the parameter. Initiall rendered. Counter changes.
+            ```javascript
+                const [counter, setCounter] = useState(0);
+                useEffect(() => {
+                    document.title = counter;
+                }, [counter]);
+            ```
+            - Multiple effects? Do not combine. Yjey are supported, but can have their own dependencies.
+                - Can also return a function from the effect to clean things up. e.g.: Unsubscribe. (On unmount.)
+        - Async operations. New in React 19:
+            - `use` Not a hook. Just a function. The rules of hooks do not apply.
+                - Pass in a promise. Return a result.
+                - Component suspended until result available. e.g.: Rendering paused until promise resolved.
+        - Library that supports cached promises: TanStack query.
+        - useMemo(): Memoize values in components.
+            ```javascript
+                const results = thimeconsumingCalculation(houses);
+            ```
+            - Do not perform upon every re-render. The Memo hook:
+            ```javascript
+                const results = useMemo(() => {
+                    return thimeconsumingCalculation(houses);
+                }, [houses]);
+            ```
+            - The caculation will occur when the component is first rendered, and when houses changes.
+            - If component is re-rendered without a change to houses, the previously calculated value will be returned.
+            - REMEMBER: Overhaed. Is this truly faster?
+        - Ref hook: Storing values between renders.
+            - Persist values that survive re-renders without causing a re-render.
+                - Modifying a ref values does not cause a re-render.
+                ```javascript
+                    const TextInputWithFocusButton = () => {
+                        const inputEl = useRef(null);
+                        const onButtonClick = () => inputEl.current.focus();
+                        return (
+                            <input ref={imputEl} type="text" />
+                            <button onclick={onButtonClick}>Focus the input</button>
+                        );
+                    };
+                ```
 
+- CONDITIONAL RENDERING & SHARED STATE
+    - 
